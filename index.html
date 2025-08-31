@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Birthday Celebration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .login-box {
+            background: rgba(25, 25, 45, 0.8);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1.5s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 60%);
+            transform: rotate(30deg);
+            animation: shine 4s infinite linear;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            animation: glow 2s infinite alternate;
+        }
+
+        .subtitle {
+            color: #a5b1c2;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .password-input {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 25px;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+        }
+
+        input:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 15px;
+            display: none;
+            position: relative;
+        }
+
+        .decoration {
+            position: absolute;
+            z-index: 1;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 50px;
+            height: 60px;
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .balloon1 {
+            background: rgba(255, 107, 107, 0.8);
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .balloon2 {
+            background: rgba(86, 171, 247, 0.8);
+            top: 15%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .balloon3 {
+            background: rgba(255, 206, 86, 0.8);
+            bottom: 10%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .star {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        .star1 {
+            top: 20%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .star2 {
+            top: 60%;
+            right: 25%;
+            animation-delay: 1s;
+        }
+
+        .star3 {
+            bottom: 30%;
+            left: 30%;
+            animation-delay: 2s;
+        }
+
+        .star4 {
+            top: 40%;
+            right: 40%;
+            animation-delay: 3s;
+        }
+
+        .star5 {
+            bottom: 20%;
+            right: 20%;
+            animation-delay: 4s;
+        }
+
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s forwards;
+            opacity: 0;
+        }
+
+        .music-player {
+            margin-top: 25px;
+            color: #a5b1c2;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #ff6b6b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(30deg) translateX(-100%); }
+            100% { transform: rotate(30deg) translateX(100%); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 107, 107, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 107, 107, 0.8), 0 0 30px rgba(255, 107, 107, 0.6); }
+        }
+
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #a5b1c2;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        /* Particle background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .login-box {
+                padding: 30px 20px;
+            }
+            
+            input, button {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle background -->
+    <div id="particles-js"></div>
+    
+    <!-- Decorative elements -->
+    <div class="decoration balloon balloon1"></div>
+    <div class="decoration balloon balloon2"></div>
+    <div class="decoration balloon balloon3"></div>
+    
+    <div class="decoration star star1"></div>
+    <div class="decoration star star2"></div>
+    <div class="decoration star star3"></div>
+    <div class="decoration star star4"></div>
+    <div class="decoration star star5"></div>
+
+    <div class="container">
+        <div class="login-box" id="loginBox">
+            <h1>Happy Birthday!</h1>
+            <p class="subtitle">Enter the magical code to unlock the celebration</p>
+            
+            <div class="password-input">
+                <input type="password" id="passwordInput" placeholder="Enter secret code">
+                <span class="password-toggle" id="passwordToggle">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            
+            <button onclick="checkPassword()">Unlock the Magic</button>
+            
+            <p class="error-message" id="errorMessage">That's not the right code. Try again!</p>
+
+            
+            <p class="footer">Made with ❤️ for a magical birthday</p>
+        </div>
+    </div>
+
+    <!-- Birthday audio -->
+    <audio id="birthdayAudio" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-birthday-to-you-458.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Fireworks script -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particle background
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ffffff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+                    move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" } }
+                }
+            });
+        });
+
+        // Password check function
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value.toLowerCase();
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Reset any previous error messages
+            errorMessage.style.display = 'none';
+            
+            if (password === 'nancy') {
+                // Create fireworks celebration
+                createFireworks();
+                
+                // Redirect after a short delay to see the fireworks
+                setTimeout(() => {
+                    window.location.href = 'cee.html';
+                }, 2000);
+            } else if (password === 'chaos') {
+                // Create fireworks celebration
+                createFireworks();
+                
+                // Redirect after a short delay to see the fireworks
+                setTimeout(() => {
+                    window.location.href = 'stitch.html';
+                }, 2000);
+            } else {
+                // Show error message
+                errorMessage.style.display = 'block';
+                
+                // Shake animation for wrong password
+                const loginBox = document.getElementById('loginBox');
+                loginBox.style.animation = 'none';
+                setTimeout(() => {
+                    loginBox.style.animation = 'fadeIn 0.5s ease';
+                }, 10);
+            }
+        }
+
+        // Allow pressing Enter to submit
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Password visibility toggle
+        document.getElementById('passwordToggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('passwordInput');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+
+        // Create fireworks animation
+        function createFireworks() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    firework.style.left = Math.random() * 100 + 'vw';
+                    firework.style.top = Math.random() * 100 + 'vh';
+                    firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                    document.body.appendChild(firework);
+                    
+                    // Remove firework after animation
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1000);
+                }, i * 40);
+            }
+        }
+
+        // Create floating stars
+        function createStars() {
+            for (let i = 0; i < 20; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(star);
+            }
+        }
+
+        // Initialize stars
+        createStars();
+    </script>
+</body>
+</html>

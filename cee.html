@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Cee!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffcce6 0%, #ff99cc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow-x: hidden;
+            color: #333;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 3px solid #ff66b2;
+        }
+
+        h1 {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #ff3399;
+            text-shadow: 2px 2px 0px rgba(255, 153, 204, 0.3);
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .birthday-cake {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+            color: #ff66b2;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .birthday-cake:hover {
+            transform: scale(1.15) rotate(8deg);
+        }
+
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #cc0066;
+            position: relative;
+            background: rgba(255, 204, 230, 0.3);
+            padding: 20px 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 500;
+            border: 2px dashed #ff99cc;
+        }
+
+        .friend-label {
+            display: inline-block;
+            background: #ff66b2;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 12px 0;
+            font-size: 1rem;
+            box-shadow: 0 3px 8px rgba(255, 102, 178, 0.3);
+        }
+
+        button {
+            background: linear-gradient(to right, #ff66b2, #ff99cc);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 45px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 102, 178, 0.4);
+            font-weight: bold;
+            margin: 15px 8px;
+            border: 2px solid white;
+            min-width: 160px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 18px rgba(255, 102, 178, 0.6);
+        }
+
+        .counter {
+            font-size: 1.1rem;
+            color: #ff3399;
+            margin: 18px 0;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 20px;
+            border-radius: 45px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(4deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #ff66b2;
+            font-size: 0.9rem;
+            position: relative;
+            font-weight: 600;
+            padding: 0 10px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            opacity: 0.7;
+            border-radius: 0;
+            z-index: 2;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(-100px) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        /* New Elements */
+        .wish-container {
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .wish-btn {
+            background: linear-gradient(to right, #ff66b2, #ff99cc);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 45px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 102, 178, 0.3);
+            font-weight: bold;
+            margin: 8px;
+            min-width: 200px;
+        }
+
+        .wish-btn:hover {
+            transform: scale(1.04);
+            box-shadow: 0 6px 16px rgba(255, 102, 178, 0.5);
+        }
+
+        .wish-message {
+            display: none;
+            background: rgba(255, 240, 245, 0.9);
+            padding: 18px;
+            border-radius: 15px;
+            margin-top: 12px;
+            border-left: 4px solid #ff66b2;
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #cc0066;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cake-candles {
+            position: relative;
+            display: inline-block;
+            margin: 18px 0;
+            transform: scale(0.9);
+        }
+
+        .candle {
+            position: absolute;
+            width: 8px;
+            height: 24px;
+            background: linear-gradient(to bottom, #ff9966, #ffcc99);
+            border-radius: 4px 4px 0 0;
+            bottom: 48px;
+        }
+
+        .candle:nth-child(1) { left: 20px; }
+        .candle:nth-child(2) { left: 44px; }
+        .candle:nth-child(3) { right: 44px; }
+        .candle:nth-child(4) { right: 20px; }
+
+        .flame {
+            position: absolute;
+            width: 10px;
+            height: 16px;
+            background: linear-gradient(to bottom, #ff9900, #ff6600);
+            border-radius: 50% 50% 20% 20%;
+            bottom: 68px;
+            animation: flicker 1s infinite alternate;
+            box-shadow: 0 0 12px 4px rgba(255, 153, 0, 0.6);
+        }
+
+        .flame:nth-child(5) { left: 19px; }
+        .flame:nth-child(6) { left: 43px; }
+        .flame:nth-child(7) { right: 43px; }
+        .flame:nth-child(8) { right: 19px; }
+
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.8; }
+        }
+
+        .birthday-hat {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            color: #ff3399;
+            z-index: 5;
+            animation: hatDance 3s infinite alternate;
+        }
+
+        @keyframes hatDance {
+            0% { transform: translateX(-50%) rotate(-8deg); }
+            100% { transform: translateX(-50%) rotate(8deg); }
+        }
+
+        .interactive-element {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            transform: scale(1.08);
+        }
+
+        /* Confetti Popper Section */
+        .confetti-section {
+            margin: 30px 0;
+            padding: 20px 15px;
+            background: rgba(255, 240, 245, 0.7);
+            border-radius: 18px;
+            border: 2px dashed #ff99cc;
+        }
+
+        .confetti-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .confetti-popper {
+            position: relative;
+            height: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .popper-body {
+            width: 42px;
+            height: 70px;
+            background: linear-gradient(to bottom, #ff66b2, #ff3399);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .popper-top {
+            width: 50px;
+            height: 25px;
+            background: linear-gradient(to bottom, #ff99cc, #ff66b2);
+            border-radius: 50% 50% 0 0;
+            margin-bottom: -12px;
+            position: relative;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .confetti-stream {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 0;
+            background: transparent;
+            z-index: 1;
+            transition: height 0.5s ease;
+        }
+
+        .confetti-popper.active .confetti-stream {
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8));
+        }
+
+        .message-bubble {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: white;
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 150px;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 10;
+            font-size: 0.85rem;
+            color: #ff3399;
+            font-weight: 600;
+            text-align: center;
+            border: 2px solid #ff99cc;
+            line-height: 1.4;
+        }
+
+        .confetti-popper.active .message-bubble {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .message-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+        }
+
+        .confetti-popper:hover {
+            transform: translateY(-4px);
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            opacity: 0;
+            z-index: 4;
+        }
+
+        .confetti-popper.active .confetti-piece {
+            animation: popperConfetti 1s ease forwards;
+        }
+
+        @keyframes popperConfetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-80px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Decorative elements for mobile */
+        .decoration {
+            display: none;
+        }
+
+        .mobile-decoration {
+            display: block;
+            position: absolute;
+            z-index: 1;
+            font-size: 1.5rem;
+            animation: floatMobile 6s infinite ease-in-out;
+        }
+
+        .balloon1 {
+            top: 5%;
+            left: 5%;
+            color: #ff3399;
+            animation-delay: 0s;
+        }
+
+        .balloon2 {
+            top: 8%;
+            right: 7%;
+            color: #ff66b2;
+            animation-delay: 2s;
+        }
+
+        .heart1 {
+            bottom: 10%;
+            left: 10%;
+            color: #ff99cc;
+            animation-delay: 1s;
+        }
+
+        .heart2 {
+            bottom: 8%;
+            right: 12%;
+            color: #ff66b2;
+            animation-delay: 3s;
+        }
+
+        @keyframes floatMobile {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        /* Button group for mobile */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        /* Responsive design */
+        @media (min-width: 480px) {
+            .confetti-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .card {
+                padding: 40px 30px;
+                border-radius: 25px;
+            }
+            
+            h1 {
+                font-size: 4rem;
+            }
+            
+            .birthday-cake {
+                font-size: 5rem;
+            }
+            
+            .message {
+                font-size: 1.3rem;
+                padding: 25px;
+            }
+            
+            .confetti-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            
+            .confetti-popper {
+                height: 150px;
+            }
+            
+            .message-bubble {
+                width: 180px;
+                font-size: 0.9rem;
+                top: -70px;
+            }
+            
+            .mobile-decoration {
+                display: none;
+            }
+            
+            .decoration {
+                display: block;
+            }
+            
+            .button-group {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .confetti-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            button {
+                min-width: 140px;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Decorative elements for desktop -->
+    <div class="decoration balloon balloon1"></div>
+    <div class="decoration balloon balloon2"></div>
+    <div class="decoration balloon balloon3"></div>
+    
+    <div class="decoration heart heart1"><i class="fas fa-heart"></i></div>
+    <div class="decoration heart heart2"><i class="fas fa-heart"></i></div>
+    
+    <div class="decoration star star1"><i class="fas fa-star"></i></div>
+    <div class="decoration star star2"><i class="fas fa-star"></i></div>
+
+    <!-- Mobile decorations -->
+    <div class="mobile-decoration balloon1">🎈</div>
+    <div class="mobile-decoration balloon2">🎈</div>
+    <div class="mobile-decoration heart1">💖</div>
+    <div class="mobile-decoration heart2">💖</div>
+
+    <div class="container">
+        <div class="card">
+            <div class="birthday-hat">🎩</div>
+            <h1>Happy Birthday Cee!</h1>
+            
+            <div class="friend-label">FROM YOUR FRIENDS</div>
+            
+            <div class="cake-candles">
+                <div class="candle"></div>
+                <div class="candle"></div>
+                <div class="candle"></div>
+                <div class="candle"></div>
+                <div class="flame"></div>
+                <div class="flame"></div>
+                <div class="flame"></div>
+                <div class="flame"></div>
+                <div class="birthday-cake" id="cake">🎂</div>
+            </div>
+            
+            <div class="counter" id="counter">Celebration Level: 0</div>
+            
+            <p class="message">
+                Hey Cee! Or should i say Nancy 🤭 Happy Birthday! 🎉<br><br>
+                Wishing you an absolutely amazing day filled with fun, laughter, and all the things you enjoy most! 
+                You're an awesome friend and everyone appreciates having you in their lives.<br><br>
+                Hope your day is as fantastic as you are! And hope you stay with stitch forever until you can still smack is old ahh 🤭
+            </p>
+            
+            <div class="wish-container">
+                <button class="wish-btn" onclick="showWish()">Click for a Special Wish!</button>
+                <div class="wish-message" id="specialWish">
+                    May your birthday be filled with laughter, joy, and all the things that make you smile! <br><br>
+                    You deserve the very best today and always. You're such a wonderful person and i had the honor to meet such nice friend like you!<br><br>
+                    Although sometimes you give me the most random questions related to Tech but hey, the fact that you are trying your best deserve some recognition!<br><br>
+                    But in any case, you're 22 now and that's so freaking cool! I hope you make so much achievement now and you make stitch and everyone who knows you proud of you!<br><br>
+                    Wish you the best!<br><br>
+                    Sempai (Mouhi)
+                </div>
+            </div>
+
+            <!-- Confetti Popper Section -->
+            <div class="confetti-section">
+                <h3>Reasons We Love Cee! 💖</h3>
+                <p>Click the poppers to reveal why everyone loves you!</p>
+                
+                <div class="confetti-grid">
+                    <div class="confetti-popper" data-message="Your smile brightens everyone's day!">
+                        <div class="message-bubble">You made stitch the happiest person on earth!!</div>
+                        <div class="confetti-stream"></div>
+                        <div class="popper-top">🎉</div>
+                        <div class="popper-body"></div>
+                        <div class="confetti-piece" style="background-color: #ff3399; left: 12px; animation-delay: 0.1s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff66b2; left: 21px; animation-delay: 0.2s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff99cc; left: 30px; animation-delay: 0.3s;"></div>
+                    </div>
+                    
+                    <div class="confetti-popper" data-message="You're always there when we need you">
+                        <div class="message-bubble">You're always there when we need you, well most of the time!</div>
+                        <div class="confetti-stream"></div>
+                        <div class="popper-top">✨</div>
+                        <div class="popper-body"></div>
+                        <div class="confetti-piece" style="background-color: #ff66b2; left: 12px; animation-delay: 0.1s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff99cc; left: 21px; animation-delay: 0.2s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff3399; left: 30px; animation-delay: 0.3s;"></div>
+                    </div>
+                    
+                    <div class="confetti-popper" data-message="Your determination is inspiring">
+                        <div class="message-bubble">Your determination is impressive! Especially when it comes to building a PC</div>
+                        <div class="confetti-stream"></div>
+                        <div class="popper-top">🌟</div>
+                        <div class="popper-body"></div>
+                        <div class="confetti-piece" style="background-color: #ff99cc; left: 12px; animation-delay: 0.1s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff3399; left: 21px; animation-delay: 0.2s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff66b2; left: 30px; animation-delay: 0.3s;"></div>
+                    </div>
+                    
+                    <div class="confetti-popper" data-message="You make every day more fun">
+                        <div class="message-bubble">You make every day more fun when we play together!</div>
+                        <div class="confetti-stream"></div>
+                        <div class="popper-top">😊</div>
+                        <div class="popper-body"></div>
+                        <div class="confetti-piece" style="background-color: #ff3399; left: 12px; animation-delay: 0.1s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff99cc; left: 21px; animation-delay: 0.2s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff66b2; left: 30px; animation-delay: 0.3s;"></div>
+                    </div>
+                    
+                    <div class="confetti-popper" data-message="Your kindness knows no bounds">
+                        <div class="message-bubble">Your kindness knows no bounds even when you're busy!</div>
+                        <div class="confetti-stream"></div>
+                        <div class="popper-top">💕</div>
+                        <div class="popper-body"></div>
+                        <div class="confetti-piece" style="background-color: #ff66b2; left: 12px; animation-delay: 0.1s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff3399; left: 21px; animation-delay: 0.2s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff99cc; left: 30px; animation-delay: 0.3s;"></div>
+                    </div>
+                    
+                    <div class="confetti-popper" data-message="You're an amazing friend to everyone">
+                        <div class="message-bubble">You're an amazing friend to everyone!</div>
+                        <div class="confetti-stream"></div>
+                        <div class="popper-top">🎯</div>
+                        <div class="popper-body"></div>
+                        <div class="confetti-piece" style="background-color: #ff99cc; left: 12px; animation-delay: 0.1s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff66b2; left: 21px; animation-delay: 0.2s;"></div>
+                        <div class="confetti-piece" style="background-color: #ff3399; left: 30px; animation-delay: 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button onclick="blowCandles()">Blow Out Candles</button>
+                <button onclick="goBack()">Back to Login</button>
+            </div>
+            
+            <p class="footer">Made by Stitch and Mouhi, happy birthday! </p>
+        </div>
+    </div>
+
+    <script>
+        // Celebration counter
+        let celebrationCount = 0;
+        const counterElement = document.getElementById('counter');
+        
+        function updateCounter() {
+            celebrationCount++;
+            counterElement.textContent = `Celebration Level: ${celebrationCount}`;
+        }
+
+        // Create confetti animation
+        function createConfetti() {
+            updateCounter();
+            const colors = ['#ff3399', '#ff66b2', '#ff99cc', '#ffcce6'];
+            
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                // Random shapes
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '50%';
+                }
+                
+                document.body.appendChild(confetti);
+                
+                // Remove confetti after animation completes
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+
+        // Cake animation
+        const cake = document.getElementById('cake');
+        cake.addEventListener('click', function() {
+            this.style.animation = 'none';
+            void this.offsetWidth; // Trigger reflow
+            this.style.animation = 'bounce 0.5s ease';
+            createConfetti();
+        });
+
+        // Show special wish
+        function showWish() {
+            const wish = document.getElementById('specialWish');
+            wish.style.display = 'block';
+            createConfetti();
+        }
+
+        // Blow out candles
+        function blowCandles() {
+            const flames = document.querySelectorAll('.flame');
+            flames.forEach(flame => {
+                flame.style.display = 'none';
+            });
+            createConfetti();
+            
+            // Create the wish popup
+            createWishPopup();
+        }
+
+        // Create wish popup with countdown
+        function createWishPopup() {
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'overlay';
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.background = 'rgba(0, 0, 0, 0.5)';
+            overlay.style.zIndex = '99';
+            document.body.appendChild(overlay);
+            
+            // Create popup
+            const popup = document.createElement('div');
+            popup.className = 'wish-popup';
+            popup.style.position = 'fixed';
+            popup.style.top = '50%';
+            popup.style.left = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.background = 'rgba(255, 255, 255, 0.95)';
+            popup.style.padding = '25px 20px';
+            popup.style.borderRadius = '18px';
+            popup.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2)';
+            popup.style.zIndex = '100';
+            popup.style.textAlign = 'center';
+            popup.style.border = '3px solid #ff66b2';
+            popup.style.maxWidth = '320px';
+            popup.style.width = '85%';
+            
+            popup.innerHTML = `
+                <h3 style="color: #ff3399; margin-bottom: 12px; font-size: 1.6rem;">Make a Wish! 🌠</h3>
+                <p style="font-size: 1.1rem; margin: 12px 0; color: #cc0066;">You can open them now!</p>
+                <div class="wish-timer" id="wishTimer" style="font-size: 1.4rem; font-weight: bold; color: #ff3399; margin: 10px 0;">10</div>
+                <p id="wishMessage" style="font-size: 1rem; margin: 12px 0;">Your wish will come true in <span id="countdown">10</span> seconds</p>
+                <button onclick="closeWishPopup()" style="margin-top: 12px; padding: 10px 18px; font-size: 1rem;">Close</button>
+            `;
+            document.body.appendChild(popup);
+            
+            // Start countdown
+            let countdown = 10;
+            const countdownElement = document.getElementById('countdown');
+            const timerElement = document.getElementById('wishTimer');
+            const wishMessage = document.getElementById('wishMessage');
+            
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                timerElement.textContent = countdown;
+                
+                // Add pulsing animation to timer
+                timerElement.style.animation = 'none';
+                void timerElement.offsetWidth; // Trigger reflow
+                timerElement.style.animation = 'countdownPulse 1s ease';
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    wishMessage.innerHTML = 'I hope your wish comes true! ✨';
+                    timerElement.style.display = 'none';
+                }
+            }, 1000);
+            
+            // Store references for cleanup
+            window.currentPopup = popup;
+            window.currentOverlay = overlay;
+            window.countdownInterval = countdownInterval;
+        }
+
+        // Close wish popup
+        function closeWishPopup() {
+            if (window.currentPopup) {
+                window.currentPopup.remove();
+                window.currentOverlay.remove();
+                clearInterval(window.countdownInterval);
+            }
+        }
+
+        // Go back to login page
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Confetti popper functionality
+        function setupConfettiPoppers() {
+            const poppers = document.querySelectorAll('.confetti-popper');
+            
+            poppers.forEach(popper => {
+                popper.addEventListener('click', function() {
+                    // Toggle active state
+                    this.classList.toggle('active');
+                    
+                    // If we're activating, create confetti
+                    if (this.classList.contains('active')) {
+                        createConfetti();
+                        
+                        // Auto-close after 5 seconds
+                        setTimeout(() => {
+                            this.classList.remove('active');
+                        }, 5000);
+                    }
+                });
+            });
+        }
+
+        // Initialize confetti on page load
+        window.onload = function() {
+            createConfetti();
+            
+            // Add some interactive elements animation
+            setTimeout(() => {
+                document.querySelector('.birthday-hat').style.animation = 'hatDance 3s infinite alternate';
+            }, 1000);
+            
+            // Setup confetti poppers
+            setupConfettiPoppers();
+        };
+    </script>
+</body>
+</html>
