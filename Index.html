@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stitch & Nancy's Cozy Corner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base styles */
+        :root {
+            --primary: #d4a574;
+            --secondary: #8b7355;
+            --accent: #e6c9a8;
+            --background: #f9f5eb;
+            --text: #5a4a3a;
+            --light: #fff9f0;
+            --shadow: rgba(90, 74, 58, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Cozy background elements */
+        .cozy-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            background: linear-gradient(135deg, var(--background) 0%, var(--light) 100%);
+            overflow: hidden;
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+        }
+        
+        .floating-element {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(212, 165, 116, 0.2);
+            animation: floatElement 25s infinite ease-in-out;
+        }
+        
+        @keyframes floatElement {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg) scale(1.1);
+                opacity: 0.4;
+            }
+        }
+        
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0;
+            animation: particleFloat 20s infinite linear;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        .pulse-element {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.05) 0%, transparent 70%);
+            animation: pulse 15s infinite ease-in-out;
+            pointer-events: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.05;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.1;
+            }
+        }
+        
+        /* Header styles */
+        header {
+            background: linear-gradient(to right, rgba(212, 165, 116, 0.1), rgba(139, 115, 85, 0.1));
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+            box-shadow: 0 5px 15px var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-style: italic;
+        }
+        
+        /* Main content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+        
+        /* Profile section */
+        .profile-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .profile-card {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: all 0.4s ease;
+            width: 280px;
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(90, 74, 58, 0.15);
+        }
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 5px 15px rgba(212, 165, 116, 0.3);
+            transition: all 0.4s ease;
+        }
+        
+        .profile-card:hover .profile-image {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .nancy-image {
+            background: linear-gradient(135deg, #e6c9a8, #d4a574);
+        }
+        
+        .stitch-image {
+            background: linear-gradient(135deg, #8b7355, #5a4a3a);
+        }
+        
+        .profile-name {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .profile-status {
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        /* Password section */
+        .password-section {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .password-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .password-form {
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid rgba(212, 165, 116, 0.5);
+            border-radius: 50px;
+            font-size: 1rem;
+            background: var(--background);
+            color: var(--text);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .password-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.3);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 165, 116, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.5);
+        }
+        
+        .error-message {
+            color: #d9534f;
+            margin-top: 15px;
+            display: none;
+            font-size: 0.9rem;
+        }
+        
+        .password-hints {
+            background: rgba(212, 165, 116, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .hint-item {
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(212, 165, 116, 0.3);
+        }
+        
+        .hint-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Gaming section */
+        .gaming-section {
+            text-align: center;
+        }
+        
+        .gaming-btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 35px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 165, 116, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .gaming-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.5);
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to right, rgba(212, 165, 116, 0.1), rgba(139, 115, 85, 0.1));
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(212, 165, 116, 0.2);
+            margin-top: 40px;
+            color: var(--secondary);
+        }
+        
+        /* Cursor effect */
+        .cursor-effect {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: multiply;
+            opacity: 0.5;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+        }
+        
+        /* Interactive glow effect */
+        .interactive-glow {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.3) 0%, transparent 70%);
+            filter: blur(20px);
+            pointer-events: none;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+        }
+        
+        /* Popup styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+        
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .popup-content {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(90, 74, 58, 0.2);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            max-width: 500px;
+            width: 100%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+        }
+        
+        .popup-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .popup-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .popup-title {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .popup-message {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .popup-close {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 165, 116, 0.4);
+            width: 100%;
+            max-width: 200px;
+        }
+        
+        .popup-close:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.5);
+        }
+        
+        /* Letter styles */
+        .letter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            padding: 15px;
+        }
+        
+        .letter-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .letter-container {
+            background: #fff9f0;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.5s ease;
+            position: relative;
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .letter-overlay.active .letter-container {
+            transform: scale(1) translateY(0);
+        }
+        
+        .letter-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            padding: 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .letter-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M1200 120L0 16.48 0 0 1200 0 1200 120z' fill='%23fff9f0'/%3E%3C/svg%3E");
+            background-size: cover;
+        }
+        
+        .letter-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .letter-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .letter-content {
+            padding: 40px 30px;
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #5a4a3a;
+            text-align: left;
+            background: #fff9f0;
+            position: relative;
+            z-index: 1;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .letter-content p {
+            margin-bottom: 20px;
+        }
+        
+        .letter-signature {
+            margin-top: 30px;
+            text-align: right;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--secondary);
+        }
+        
+        .letter-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .letter-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            color: rgba(212, 165, 116, 0.3);
+            font-size: 20px;
+            animation: floatHeart 15s infinite linear;
+        }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100%) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100%) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Scrollbar styling for letter */
+        .letter-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .letter-content::-webkit-scrollbar-track {
+            background: rgba(212, 165, 116, 0.1);
+            border-radius: 4px;
+        }
+        
+        .letter-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .letter-content::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+        
+        /* Mobile-first responsive styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 25px 0;
+                margin-bottom: 25px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .profile-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .profile-card {
+                width: 100%;
+                max-width: 350px;
+                padding: 25px;
+            }
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
+            
+            .profile-name {
+                font-size: 1.6rem;
+            }
+            
+            .password-section {
+                padding: 30px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .password-input {
+                padding: 12px 18px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .submit-btn, .gaming-btn {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+            
+            .popup-content {
+                padding: 30px 20px;
+            }
+            
+            .popup-title {
+                font-size: 1.6rem;
+            }
+            
+            .popup-message {
+                font-size: 1rem;
+            }
+            
+            .popup-close {
+                width: 100%;
+                max-width: none;
+            }
+            
+            .letter-container {
+                max-height: 85vh;
+            }
+            
+            .letter-content {
+                padding: 25px 20px;
+                font-size: 1rem;
+            }
+            
+            .letter-title {
+                font-size: 1.8rem;
+            }
+            
+            .letter-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .letter-close {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .main-content {
+                gap: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 20px 0;
+                margin-bottom: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .profile-card {
+                padding: 20px;
+            }
+            
+            .profile-image {
+                width: 90px;
+                height: 90px;
+                font-size: 35px;
+            }
+            
+            .profile-name {
+                font-size: 1.4rem;
+            }
+            
+            .profile-status {
+                font-size: 0.9rem;
+            }
+            
+            .password-section {
+                padding: 25px 15px;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+                margin-bottom: 20px;
+            }
+            
+            .password-hints {
+                padding: 15px;
+            }
+            
+            .popup-content {
+                padding: 25px 15px;
+            }
+            
+            .popup-title {
+                font-size: 1.4rem;
+            }
+            
+            .popup-icon {
+                font-size: 2.5rem;
+            }
+            
+            .letter-content {
+                padding: 20px 15px;
+                font-size: 0.95rem;
+            }
+            
+            .letter-title {
+                font-size: 1.6rem;
+            }
+            
+            .letter-subtitle {
+                font-size: 1rem;
+            }
+            
+            .letter-header {
+                padding: 15px;
+            }
+            
+            .letter-signature {
+                font-size: 1.1rem;
+            }
+            
+            .gaming-btn, .submit-btn {
+                padding: 12px 20px;
+            }
+            
+            .floating-element {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .profile-name {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .letter-title {
+                font-size: 1.4rem;
+            }
+            
+            .letter-content {
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .profile-card:hover {
+                transform: none;
+            }
+            
+            .profile-card:hover .profile-image {
+                transform: none;
+            }
+            
+            .submit-btn:hover, .gaming-btn:hover, .popup-close:hover {
+                transform: none;
+            }
+            
+            .cursor-effect {
+                display: none;
+            }
+        }
+        
+        /* Prevent text size adjustment on orientation change */
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="cozy-background"></div>
+    <div class="floating-elements" id="floatingElements"></div>
+    <div class="particles-container" id="particlesContainer"></div>
+    <div class="cursor-effect" id="cursorEffect"></div>
+    
+    <!-- Popup for under construction pages -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <div class="popup-icon">
+                <i class="fas fa-tools"></i>
+            </div>
+            <h2 class="popup-title">Page Under Construction</h2>
+            <p class="popup-message">Your special page is still under construction, don't worry you'll get notified once it's ready!</p>
+            <button class="popup-close" id="popupClose">Got it!</button>
+        </div>
+    </div>
+    
+    <!-- Special letter for Nancy -->
+    <div class="letter-overlay" id="letterOverlay">
+        <div class="letter-container">
+            <button class="letter-close" id="letterClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="letter-header">
+                <h2 class="letter-title">For Our Nancy</h2>
+                <p class="letter-subtitle">A message of love and strength</p>
+            </div>
+            <div class="letter-content">
+                <div class="hearts-container" id="heartsContainer"></div>
+                <p>Our dearest Nancy,</p>
+                
+                <p>As you face this challenge, I want you to know that you are not alone. Not for a single moment. We are all standing with you, holding your hand through every step of this journey.</p>
+                
+                <p>You are so much stronger than you realize. The same fierce spirit that makes you our "Military Queen" and "Angel of Chaos" is the same strength that will carry you through this. Your courage inspires everyone around you.</p>
+                
+                <p>While you're recovering, we'll be counting down the days until we can hear your voice in our headsets again. Valorant won't be the same without your laughter and our friendly bullying sessions (you still need to improve tho 🙂).</p>
+                
+                <p>Remember that every day is one step closer to having you back with us, fragging enemies and bringing that special chaos only you can provide. We've already planned your welcome back party in the gaming space!</p>
+                
+                <p>You'll be alright okay? No need to stress, and know that we're all here waiting for you. The squad isn't complete without our Nancy.</p>
+                
+                <p>We're sending you all our strength, positive energy, and love. You've got this, and we've got you.</p>
+                
+                <p>With all our love and support,</p>
+                
+                <p class="letter-signature">Always by your side,<br>Stitch & The Whole Crew</p>
+                
+                <p style="text-align: center; margin-top: 40px; font-style: italic;">
+                    P.S. We're saving your favorite agent for when you return! 
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <header>
+        <div class="container">
+            <h1>Stitch & Nancy's Cozy Corner</h1>
+            <p class="tagline">A warm digital space crafted just for you two 💕</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="profile-section">
+                <div class="profile-card nancy-card">
+                    <div class="profile-image nancy-image">👩</div>
+                    <h2 class="profile-name">Nancy</h2>
+                    <p class="profile-status">Military queen, Angel of Chaos, Piercing lover</p>
+                </div>
+
+                <div class="profile-card stitch-card">
+                    <div class="profile-image stitch-image">👨</div>
+                    <h2 class="profile-name">Stitch</h2>
+                    <p class="profile-status">THE Chaos, Black zazzy material, Best Gamer</p>
+                </div>
+            </div>
+            
+            <div class="password-section">
+                <h2 class="section-title">Access Private Spaces</h2>
+                <div class="password-form">
+                    <input type="password" class="password-input" id="passwordInput" placeholder="Enter access code">
+                    <button class="submit-btn" id="submitPassword">
+                        <i class="fas fa-lock-open"></i> Unlock & Enter
+                    </button>
+                    <p class="error-message" id="errorMessage">Access denied. Please try again.</p>
+                </div>
+                
+                <div class="password-hints">
+                    <p><strong>Access hints:</strong></p>
+                    <div class="hint-item">Think about your special names and moments</div>
+                    <div class="hint-item">Try lowercase versions of meaningful words</div>
+                </div>
+            </div>
+            
+            <div class="gaming-section">
+                <button class="gaming-btn" id="gamingBtn">
+                    <i class="fas fa-gamepad"></i> Enter Gaming Space
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Digitally crafted with ❤️ for Stitch & Nancy</p>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const passwordInput = document.getElementById('passwordInput');
+        const submitPassword = document.getElementById('submitPassword');
+        const errorMessage = document.getElementById('errorMessage');
+        const floatingElements = document.getElementById('floatingElements');
+        const gamingBtn = document.getElementById('gamingBtn');
+        const particlesContainer = document.getElementById('particlesContainer');
+        const cursorEffect = document.getElementById('cursorEffect');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupClose = document.getElementById('popupClose');
+        const letterOverlay = document.getElementById('letterOverlay');
+        const letterClose = document.getElementById('letterClose');
+        const heartsContainer = document.getElementById('heartsContainer');
+        
+        // Create floating elements
+        function createFloatingElements() {
+            const elements = ['❖', '◆', '◈', '◇', '◉', '◎', '✦', '✧', '♡', '★', '☕', '🍂', '✨'];
+            
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('div');
+                element.classList.add('floating-element');
+                element.innerHTML = elements[Math.floor(Math.random() * elements.length)];
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.top = Math.random() * 100 + 'vh';
+                element.style.animationDuration = (Math.random() * 15 + 20) + 's';
+                element.style.animationDelay = Math.random() * 10 + 's';
+                element.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                element.style.color = `rgba(${212}, ${165}, ${116}, ${Math.random() * 0.3 + 0.1})`;
+                floatingElements.appendChild(element);
+            }
+        }
+        
+        // Create floating hearts for Nancy's letter
+        function createFloatingHearts() {
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Create interactive particles
+        function createParticles() {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.width = Math.random() * 30 + 10 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.background = `radial-gradient(circle, 
+                    rgba(${212}, ${165}, ${116}, ${Math.random() * 0.3 + 0.1}) 0%, 
+                    transparent 70%)`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Create pulsing background elements
+        function createPulseElements() {
+            for (let i = 0; i < 5; i++) {
+                const pulse = document.createElement('div');
+                pulse.classList.add('pulse-element');
+                pulse.style.width = Math.random() * 300 + 100 + 'px';
+                pulse.style.height = pulse.style.width;
+                pulse.style.left = Math.random() * 100 + 'vw';
+                pulse.style.top = Math.random() * 100 + 'vh';
+                pulse.style.animationDelay = Math.random() * 15 + 's';
+                document.body.appendChild(pulse);
+            }
+        }
+        
+        // Password configurations
+        const passwords = {
+            'stitch': 'stitch.html',
+            'nancy': 'nancy.html',
+            'health': 'health.html',
+            'halloween': 'halloween.html',
+            'together': 'memories.html'
+        };
+        
+        // Event Listeners
+        submitPassword.addEventListener('click', checkPassword);
+        
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+        
+        gamingBtn.addEventListener('click', () => {
+            // Add a cozy transition effect before redirecting
+            document.body.style.opacity = '0.8';
+            document.body.style.transition = 'opacity 0.5s';
+            
+            setTimeout(() => {
+                window.location.href = 'gaming.html';
+            }, 500);
+        });
+        
+        // Popup close event
+        popupClose.addEventListener('click', () => {
+            popupOverlay.classList.remove('active');
+            passwordInput.value = '';
+            passwordInput.focus();
+        });
+        
+        // Letter close event
+        letterClose.addEventListener('click', () => {
+            letterOverlay.classList.remove('active');
+            passwordInput.value = '';
+            passwordInput.focus();
+        });
+        
+        // Enhanced mouse move effects
+        document.addEventListener('mousemove', (e) => {
+            // Update cursor effect position
+            cursorEffect.style.left = e.clientX + 'px';
+            cursorEffect.style.top = e.clientY + 'px';
+            
+            // Create subtle hover trails occasionally
+            if (Math.random() > 0.9) {
+                const trail = document.createElement('div');
+                trail.classList.add('particle');
+                trail.style.width = '5px';
+                trail.style.height = '5px';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                trail.style.animationDuration = '1s';
+                trail.style.animationDelay = '0s';
+                trail.style.background = `radial-gradient(circle, 
+                    rgba(${212}, ${165}, {116}, 0.5) 0%, 
+                    transparent 70%)`;
+                particlesContainer.appendChild(trail);
+                
+                // Remove trail after animation
+                setTimeout(() => {
+                    if (particlesContainer.contains(trail)) {
+                        particlesContainer.removeChild(trail);
+                    }
+                }, 1000);
+            }
+        });
+        
+        // Password checking function
+        function checkPassword() {
+            const enteredPassword = passwordInput.value.trim().toLowerCase();
+            
+            if (passwords[enteredPassword]) {
+                // Add success animation
+                submitPassword.innerHTML = '<i class="fas fa-check"></i> Access Granted!';
+                submitPassword.style.background = 'linear-gradient(to right, #8b7355, #5a4a3a)';
+                
+                // Create celebration particles
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.classList.add('particle');
+                        particle.style.width = '10px';
+                        particle.style.height = '10px';
+                        particle.style.left = '50%';
+                        particle.style.top = '50%';
+                        particle.style.animationDuration = '1s';
+                        particle.style.animationDelay = '0s';
+                        particle.style.background = `radial-gradient(circle, 
+                            rgba(${212}, ${165}, ${116}, 0.8) 0%, 
+                            transparent 70%)`;
+                        particlesContainer.appendChild(particle);
+                        
+                        setTimeout(() => {
+                            if (particlesContainer.contains(particle)) {
+                                particlesContainer.removeChild(particle);
+                            }
+                        }, 1000);
+                    }, i * 50);
+                }
+                
+                // Show special letter for health password
+                if (enteredPassword === 'health') {
+                    setTimeout(() => {
+                        letterOverlay.classList.add('active');
+                        // Reset button
+                        submitPassword.innerHTML = '<i class="fas fa-lock-open"></i> Unlock & Enter';
+                        submitPassword.style.background = 'linear-gradient(to right, var(--primary), var(--secondary))';
+                    }, 1000);
+                } 
+                // Show popup for stitch or nancy passwords
+                else if (enteredPassword === 'stitch' || enteredPassword === 'nancy') {
+                    setTimeout(() => {
+                        popupOverlay.classList.add('active');
+                        // Reset button
+                        submitPassword.innerHTML = '<i class="fas fa-lock-open"></i> Unlock & Enter';
+                        submitPassword.style.background = 'linear-gradient(to right, var(--primary), var(--secondary))';
+                    }, 1000);
+                } else {
+                    // For other valid passwords, redirect as normal
+                    setTimeout(() => {
+                        window.location.href = passwords[enteredPassword];
+                    }, 1000);
+                }
+            } else {
+                errorMessage.style.display = 'block';
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                // Add error animation to the input
+                passwordInput.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    passwordInput.style.animation = '';
+                }, 500);
+                
+                // Create error particles
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.classList.add('particle');
+                        particle.style.width = '8px';
+                        particle.style.height = '8px';
+                        particle.style.left = passwordInput.getBoundingClientRect().left + 'px';
+                        particle.style.top = passwordInput.getBoundingClientRect().top + 'px';
+                        particle.style.animationDuration = '0.5s';
+                        particle.style.animationDelay = '0s';
+                        particle.style.background = `radial-gradient(circle, 
+                            rgba(139, 115, 85, 0.8) 0%, 
+                            transparent 70%)`;
+                        particlesContainer.appendChild(particle);
+                        
+                        setTimeout(() => {
+                            if (particlesContainer.contains(particle)) {
+                                particlesContainer.removeChild(particle);
+                            }
+                        }, 500);
+                    }, i * 50);
+                }
+            }
+        }
+        
+        // Add shake animation for errors
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingElements();
+            createParticles();
+            createPulseElements();
+            createFloatingHearts();
+        });
+    </script>
+</body>
+</html>

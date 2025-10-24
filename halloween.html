@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halloween Horror Adventure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(40, 0, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(40, 0, 0, 0.1) 0%, transparent 20%);
+        }
+        
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .scene {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scene::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #8b0000, transparent);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #8b0000;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        h2 {
+            color: #b22222;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .story-text {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+        
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .choice-btn {
+            background-color: #2a2a2a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .choice-btn:hover {
+            background-color: #3a3a3a;
+            border-color: #8b0000;
+            transform: translateX(5px);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .ending {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .restart-btn {
+            background-color: #8b0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .restart-btn:hover {
+            background-color: #a52a2a;
+        }
+        
+        .spooky-element {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.1;
+            z-index: -1;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(100px, 100px) rotate(360deg); }
+        }
+        
+        .scene-image {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 4rem;
+        }
+        
+        .blood-text {
+            color: #8b0000;
+            font-weight: bold;
+        }
+        
+        .flash {
+            animation: flash 0.5s;
+        }
+        
+        @keyframes flash {
+            0% { background-color: #1a1a1a; }
+            50% { background-color: #8b0000; }
+            100% { background-color: #1a1a1a; }
+        }
+        
+        .death-ending {
+            border-color: #8b0000;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.7);
+        }
+        
+        .death-ending::before {
+            background: linear-gradient(90deg, transparent, #ff0000, transparent);
+        }
+        
+        .death-title {
+            color: #ff0000;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+        
+        .escape-ending {
+            border-color: #004400;
+            box-shadow: 0 0 30px rgba(0, 100, 0, 0.7);
+        }
+        
+        .escape-ending::before {
+            background: linear-gradient(90deg, transparent, #00aa00, transparent);
+        }
+        
+        .escape-title {
+            color: #00aa00;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        
+        .aftereffect {
+            font-style: italic;
+            color: #888;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+
+
+          /* Wise Decision Ending Styles */
+        .wise-ending {
+            border-color: #00a0a0;
+            box-shadow: 0 0 30px rgba(0, 160, 160, 0.7);
+        }
+        
+        .wise-ending::before {
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+        }
+        
+        .wise-title {
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>HALLOWEEN HORROR ADVENTURE</h1>
+        
+        <!-- Start Scene -->
+        <div id="scene-start" class="scene fade-in">
+            <div class="scene-image">🏚️</div>
+            <h2>The Old Miller House</h2>
+            <p class="story-text">You and your friends have heard the legends about the Old Miller House for years. They say old man Miller disappeared one Halloween night fifty years ago, and his spirit still haunts the property. Tonight, on a dare, you've decided to explore the abandoned house. The moon is full, the wind howls through the trees, and the old house stands dark and foreboding before you.</p>
+            <p class="story-text">Your friends are waiting in the car, too scared to join you. They promised to wait exactly one hour before calling for help if you don't return.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-1a')">Enter through the creaky front door</button>
+                <button class="choice-btn" onclick="showScene('scene-1b')">Try to find another way in around back</button>
+                <button class="choice-btn" onclick="showScene('scene-1c')">Forget this, return to the car and leave</button>
+            </div>
+        </div>
+        
+        <!-- Scene 1A -->
+        <div id="scene-1a" class="scene hidden">
+            <div class="scene-image">🚪</div>
+            <h2>The Foyer</h2>
+            <p class="story-text">The front door groans loudly as you push it open. A cloud of dust billows out, making you cough. Inside, the air is thick and stale. Moonlight filters through a broken window, illuminating dust motes dancing in the air. To your left, a staircase leads upward into darkness. Straight ahead, a hallway extends deeper into the house. From somewhere above, you hear a faint scratching sound.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-2a')">Climb the staircase</button>
+                <button class="choice-btn" onclick="showScene('scene-2b')">Explore the hallway</button>
+                <button class="choice-btn" onclick="showScene('scene-2c')">Go back outside</button>
+            </div>
+        </div>
+        
+        <!-- Scene 1B -->
+        <div id="scene-1b" class="scene hidden">
+            <div class="scene-image">🪟</div>
+            <h2>The Back Entrance</h2>
+            <p class="story-text">You circle around to the back of the house, pushing through overgrown bushes. You find a window with a broken pane. After carefully clearing the glass shards, you climb through into what appears to be a kitchen. The room is filled with decaying cabinets and a large, old-fashioned stove. On the counter, something glints in the moonlight - an old, tarnished silver locket.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-2d')">Pick up the locket</button>
+                <button class="choice-btn" onclick="showScene('scene-2e')">Ignore it and move to the next room</button>
+                <button class="choice-btn" onclick="showScene('scene-2f')">Climb back out the window</button>
+            </div>
+        </div>
+        
+        <!-- Scene 1C -->
+        <div id="scene-1c" class="scene hidden">
+            <div class="scene-image">👻</div>
+            <h2>The Safe Choice</h2>
+            <p class="story-text">You decide this is too dangerous and head back to the car. Your friends tease you, but you know you made the right choice. As you drive away, you glance back at the house and swear you see a pale face watching from an upstairs window. You'll never know what horrors awaited inside, but at least you're safe.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-safe')">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Scene 2A -->
+        <div id="scene-2a" class="scene hidden">
+            <div class="scene-image">📜</div>
+            <h2>The Master Bedroom</h2>
+            <p class="story-text">You carefully ascend the creaking stairs. At the top, you find a hallway with several doors. The scratching sound seems to be coming from behind the door at the end of the hall. You enter what appears to be the master bedroom. The room is surprisingly intact, with a large canopy bed and a vanity table. On the vanity, you find a journal open to a specific page.</p>
+            <p class="story-text blood-text">"October 31st - The voices are getting louder. They want me to join them in the basement. I can't resist much longer. If anyone finds this, know that I did not go willingly."</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-3a')">Search the room for more clues</button>
+                <button class="choice-btn" onclick="showScene('scene-3b')">Head to the basement mentioned in the journal</button>
+                <button class="choice-btn" onclick="showScene('scene-3c')">Leave the room and check another part of the house</button>
+            </div>
+        </div>
+        
+        <!-- Scene 2B -->
+        <div id="scene-2b" class="scene hidden">
+            <div class="scene-image">🕯️</div>
+            <h2>The Living Room</h2>
+            <p class="story-text">You move down the hallway and enter a large living room. Furniture is covered in white sheets, giving the room a ghostly appearance. On the mantelpiece, you notice several framed photographs. As you look closer, you realize the people in the photos all have their eyes scratched out. Suddenly, a cold draft extinguishes the candle you brought, plunging you into near darkness.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-3d')">Try to relight your candle</button>
+                <button class="choice-btn" onclick="showScene('scene-3e')">Feel your way toward what you think is the exit</button>
+                <button class="choice-btn" onclick="showScene('scene-3f')">Stay still and wait for your eyes to adjust</button>
+            </div>
+        </div>
+        
+        <!-- Scene 2C -->
+        <div id="scene-2c" class="scene hidden">
+            <div class="scene-image">🏃</div>
+            <h2>Second Thoughts</h2>
+            <p class="story-text">You decide this was a bad idea and head for the front door. But when you try to open it, it won't budge. It's as if something is holding it shut from the other side. You pull with all your might, but the door won't open. From behind you, you hear a soft whisper: "Stay with us..."</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-3g')">Try to break a window to escape</button>
+                <button class="choice-btn" onclick="showScene('scene-3h')">Turn around and face whatever is whispering</button>
+                <button class="choice-btn" onclick="showScene('scene-3i')">Scream for help from your friends</button>
+            </div>
+        </div>
+        
+        <!-- Scene 2D -->
+        <div id="scene-2d" class="scene hidden">
+            <div class="scene-image">📿</div>
+            <h2>The Silver Locket</h2>
+            <p class="story-text">You pick up the locket and open it. Inside, you find a faded photo of a woman and a man — the man looks exactly like the pictures of Old Man Miller you've seen in town. As you stare, the temperature drops sharply. A whisper echoes: "Bring it back..."</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-3j')">Whisper back, "Bring what back?"</button>
+                <button class="choice-btn" onclick="showEnding('ending-ashen-trail')">Drop the locket and run</button>
+                <button class="choice-btn" onclick="showScene('scene-3l')">Pocket the locket and keep exploring</button>
+            </div>
+        </div>
+        
+        <!-- Scene 2E -->
+        <div id="scene-2e" class="scene hidden">
+            <div class="scene-image">🚪</div>
+            <h2>The Dining Room</h2>
+            <p class="story-text">You move into what used to be a grand dining room. The long wooden table is covered in dust and cobwebs, but oddly, one chair has been pulled out — as if someone was sitting there recently. The faint sound of utensils clinking echoes through the silence.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-3m')">Call out, "Hello?"</button>
+                <button class="choice-btn" onclick="showScene('scene-3n')">Slowly approach the table</button>
+                <button class="choice-btn" onclick="showEnding('ending-false-calm')">Back away quietly</button>
+            </div>
+        </div>
+        
+        <!-- Scene 2F -->
+        <div id="scene-2f" class="scene hidden">
+            <div class="scene-image">🪞</div>
+            <h2>The Reflection</h2>
+            <p class="story-text">As you climb out, you glance into the window and freeze — your reflection isn't moving with you. It stares, smiling faintly. Then, its mouth opens and whispers something you can't hear.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-reflection')">You reach for the glass</button>
+                <button class="choice-btn" onclick="showEnding('ending-turning-mirror')">You run without looking back</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3A -->
+        <div id="scene-3a" class="scene hidden">
+            <div class="scene-image">📖</div>
+            <h2>The Hidden Compartment</h2>
+            <p class="story-text">You search the vanity and find a small drawer that sticks. With effort, it opens, revealing a rusted key and a note: "Do not open the basement."</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-3b')">Go to the basement anyway</button>
+                <button class="choice-btn" onclick="showEnding('ending-staircase-fall')">Leave the room and flee the house</button>
+                <button class="choice-btn" onclick="showEnding('ending-vanishing-house')">Take the key and leave the house</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3B -->
+        <div id="scene-3b" class="scene hidden">
+            <div class="scene-image">🕳️</div>
+            <h2>The Basement</h2>
+            <p class="story-text">You find the basement door and unlock it with the key. A wave of cold, damp air hits you. Descending slowly, you notice strange symbols drawn on the walls in dark, dried stains. In the center, a circle of candles flickers faintly — and something moves in the shadows.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-basement-ritual')">Step closer to investigate</button>
+                <button class="choice-btn" onclick="showEnding('ending-collapsing-basement')">Run back upstairs and flee</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3C -->
+        <div id="scene-3c" class="scene hidden">
+            <div class="scene-image">🪑</div>
+            <h2>The Hallway Again</h2>
+            <p class="story-text">You return to the hallway. The scratching has stopped, replaced by the faint sound of footsteps behind you. When you turn, nothing's there — but a new door has appeared where there wasn't one before.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-3b')">Open the new door</button>
+                <button class="choice-btn" onclick="showEnding('ending-hollow-escape')">Ignore it and escape through the front door</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3D -->
+        <div id="scene-3d" class="scene hidden">
+            <div class="scene-image">🕯️</div>
+            <h2>The Flame Returns</h2>
+            <p class="story-text">You manage to relight your candle, but when you look up, all the photos on the wall are different — they now show <span class="blood-text">you</span>, standing in the same room.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-candle')">Drop the candle in terror</button>
+                <button class="choice-btn" onclick="showEnding('ending-candle-wouldnt-die')">Run for the door</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3E -->
+        <div id="scene-3e" class="scene hidden">
+            <div class="scene-image">🕳️</div>
+            <h2>The Wrong Direction</h2>
+            <p class="story-text">You feel your way through the dark, but your hand touches something wet and warm. You hear breathing — but it's not yours.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-breathing-thing')">Scream and try to run</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3F -->
+        <div id="scene-3f" class="scene hidden">
+            <div class="scene-image">👁️</div>
+            <h2>The Eyes Adjust</h2>
+            <p class="story-text">As your eyes adjust, you realize you're not alone — several figures stand around you, their heads slowly turning in your direction.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-silent-watchers')">You can't move</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3G -->
+        <div id="scene-3g" class="scene hidden">
+            <div class="scene-image">🔨</div>
+            <h2>The Window Shatters</h2>
+            <p class="story-text">You smash a nearby window and climb through the broken glass. As your feet hit the grass outside, you hear a shriek of rage from inside the house — but you're free.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-fractured-escape')">Run for your life</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3H -->
+        <div id="scene-3h" class="scene hidden">
+            <div class="scene-image">😈</div>
+            <h2>The Whispering Presence</h2>
+            <p class="story-text">You turn to face the whisper, and a figure emerges — translucent, twisted, and smiling. Its hollow eyes lock on yours. "Welcome home," it says as everything goes black.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-doorway-ghost')">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3I -->
+        <div id="scene-3i" class="scene hidden">
+            <div class="scene-image">📣</div>
+            <h2>No One Hears You</h2>
+            <p class="story-text">You scream for help, but your voice doesn't echo. The air feels heavy — thick — and your breath fogs up in the freezing air. Then, from the shadows, your own voice whispers back: "Help won't come."</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-mimic-echo')">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3J -->
+        <div id="scene-3j" class="scene hidden">
+            <div class="scene-image">🔮</div>
+            <h2>The Whisper's Answer</h2>
+            <p class="story-text">"The locket... bring it to the basement," the whisper hisses. The kitchen lights flicker, revealing footprints made of ash leading toward a trapdoor you hadn't noticed before.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('scene-3b')">Follow the footprints</button>
+                <button class="choice-btn" onclick="showEnding('ending-breath-of-house')">Refuse and flee the house</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3K -->
+        <div id="scene-3k" class="scene hidden">
+            <div class="scene-image">🏃</div>
+            <h2>Running Blind</h2>
+            <p class="story-text">You drop the locket and sprint toward the window. As you climb out, you hear it slam shut behind you. You don't stop running until you reach the road.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-narrow-crawl')">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3L -->
+        <div id="scene-3l" class="scene hidden">
+            <div class="scene-image">💀</div>
+            <h2>The Possession</h2>
+            <p class="story-text">As you pocket the locket, your vision blurs. A voice inside your head murmurs, "Thank you for freeing me." You realize too late that you've taken something cursed.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-whispering-locket')">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3M -->
+        <div id="scene-3m" class="scene hidden">
+            <div class="scene-image">👂</div>
+            <h2>The Response</h2>
+            <p class="story-text">You call out, and the utensils stop. Then, a whisper answers: "Dinner's served." The air thickens and the smell of decay fills the room.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-trapped')">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3N -->
+        <div id="scene-3n" class="scene hidden">
+            <div class="scene-image">🍽️</div>
+            <h2>The Table's Secret</h2>
+            <p class="story-text">You approach the table and find a single plate set with fresh food — steaming, untouched. A folded napkin reads: "For our new guest."</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-dining-table')">Sit down</button>
+                <button class="choice-btn" onclick="showEnding('ending-bloody-escape')">Run for it</button>
+            </div>
+        </div>
+        
+        <!-- Scene 3O -->
+        <div id="scene-3o" class="scene hidden">
+            <div class="scene-image">🚪</div>
+            <h2>The Quiet Exit</h2>
+            <p class="story-text">You slowly back out of the room. As you turn to leave, every chair at the table scrapes back — as if unseen guests just stood up.</p>
+            <div class="choices">
+                <button class="choice-btn" onclick="showEnding('ending-escape')">Flee the house</button>
+            </div>
+        </div>
+        
+        <!-- Safe Ending -->
+        <div id="ending-safe" class="scene hidden ending wise-ending">
+            <div class="scene-image">🚗</div>
+            <h2 class="wise-title">ENDING: WISE DECISION</h2>
+            <p class="story-text">You made it out safely! While your friends might tease you for being scared, you know that sometimes the bravest thing you can do is recognize danger and avoid it. The Old Miller House remains a mystery, but you'll live to tell the tale.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Generic Escape Ending -->
+        <div id="ending-escape" class="scene hidden ending escape-ending">
+            <div class="scene-image">🏆</div>
+            <h2 class="escape-title">ENDING: NARROW ESCAPE</h2>
+            <p class="story-text">You burst out of the house just as something cold grabs at your ankle. You scramble to the car, and your friends speed away. Behind you, the house seems to groan in disappointment. You survived the Old Miller House, but you'll never forget what you experienced there. Some mysteries are better left unsolved.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Death Endings -->
+        
+        <!-- Candle Ending -->
+        <div id="ending-candle" class="scene hidden ending death-ending">
+            <div class="scene-image">🖼️</div>
+            <h2 class="death-title">DEATH: THE CANDLE ENDING</h2>
+            <p class="story-text">When the flame goes out, the faces in the photographs start to smile. The air thickens like tar. You try to scream, but something cold presses against your lips — a pale hand emerging from the dark.</p>
+            <p class="story-text">The last thing you see is your own face in one of the frames… grinning.</p>
+            <p class="blood-text">Death cause: suffocated or absorbed by cursed portraits (symbolic entrapment).</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Breathing Thing Ending -->
+        <div id="ending-breathing-thing" class="scene hidden ending death-ending">
+            <div class="scene-image">🌑</div>
+            <h2 class="death-title">DEATH: THE BREATHING THING</h2>
+            <p class="story-text">Your hand meets warm skin — then teeth. The unseen thing exhales on your face, foul and wet. You stumble back, but the darkness closes in.</p>
+            <p class="story-text">A maw opens where no light reaches, and you are swallowed whole, dragged screaming into the walls.</p>
+            <p class="blood-text">Death cause: devoured by a shadow entity living within the house's structure.</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Silent Watchers Ending -->
+        <div id="ending-silent-watchers" class="scene hidden ending death-ending">
+            <div class="scene-image">👥</div>
+            <h2 class="death-title">DEATH: THE SILENT WATCHERS</h2>
+            <p class="story-text">When your eyes adjust, you realize you're surrounded by people — or what's left of them. Their eyes glow faintly.</p>
+            <p class="story-text">They step closer, whispering, "Join us." You feel your heartbeat slow… and your skin turns to dust.</p>
+            <p class="blood-text">Death cause: life drained by spectral congregation (energy absorption).</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Basement Ritual Ending -->
+        <div id="ending-basement-ritual" class="scene hidden ending death-ending">
+            <div class="scene-image">🕯️</div>
+            <h2 class="death-title">DEATH: THE BASEMENT RITUAL</h2>
+            <p class="story-text">You descend the stairs and find a circle of candles around a pit. Voices chant your name in reverse.</p>
+            <p class="story-text">As you approach, a shape rises — wearing your own face. It smiles, steps out of the circle, and takes your place. You fall backward into the pit, and the candlelight goes out.</p>
+            <p class="blood-text">Death cause: soul swap; you become trapped in the ritual pit.</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Reflection Ending -->
+        <div id="ending-reflection" class="scene hidden ending death-ending">
+            <div class="scene-image">🪞</div>
+            <h2 class="death-title">DEATH: THE REFLECTION WINDOW</h2>
+            <p class="story-text">Your reflection smiles before you do. It presses its hand to the glass, and cracks web across the surface.</p>
+            <p class="story-text">When you step back, the cracks spread over your skin. You shatter silently, falling into a thousand shards of yourself.</p>
+            <p class="blood-text">Death cause: metaphysical fragmentation.</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Whispering Locket Ending -->
+        <div id="ending-whispering-locket" class="scene hidden ending death-ending">
+            <div class="scene-image">📿</div>
+            <h2 class="death-title">DEATH: THE WHISPERING LOCKET</h2>
+            <p class="story-text">The voice in your head grows louder. At first, it's one — then hundreds. You claw at your ears, but the whispering becomes screams.</p>
+            <p class="story-text">When the police find you, you're smiling peacefully, the locket fused into your chest.</p>
+            <p class="blood-text">Death cause: mental possession leading to transformation.</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Doorway Ghost Ending -->
+        <div id="ending-doorway-ghost" class="scene hidden ending death-ending">
+            <div class="scene-image">👻</div>
+            <h2 class="death-title">DEATH: THE DOORWAY GHOST</h2>
+            <p class="story-text">"Welcome home," it says. You feel its arms wrap around you from behind — cold, familiar. Your body stiffens.</p>
+            <p class="story-text">You look down… and realize your hands are bones. You've been dead a long time. You just didn't know it.</p>
+            <p class="blood-text">Death cause: temporal curse — you were already a ghost.</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Mimic Echo Ending -->
+        <div id="ending-mimic-echo" class="scene hidden ending death-ending">
+            <div class="scene-image">🗣️</div>
+            <h2 class="death-title">DEATH: THE MIMIC ECHO</h2>
+            <p class="story-text">Your own voice answers from the dark: "I'm coming." Footsteps echo behind you — getting closer.</p>
+            <p class="story-text">When you turn, you see yourself smiling, eyes hollow, hands reaching. It takes your place, leaving you voiceless forever.</p>
+            <p class="blood-text">Death cause: replaced by a vocal mimic spirit.</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Dining Table Ending -->
+        <div id="ending-dining-table" class="scene hidden ending death-ending">
+            <div class="scene-image">🍽️</div>
+            <h2 class="death-title">DEATH: THE DINING TABLE</h2>
+            <p class="story-text">The plate steams invitingly. You take a bite — the taste of iron fills your mouth.</p>
+            <p class="story-text">You glance down. Your fork is buried in your own hand. The meal on the plate is you. The figures seated around you begin to clap slowly.</p>
+            <p class="blood-text">Death cause: self-cannibalism curse induced by illusion.</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Trapped Ending -->
+        <div id="ending-trapped" class="scene hidden ending death-ending">
+            <div class="scene-image">🍽️</div>
+            <h2 class="death-title">DEATH: THE ETERNAL BANQUET</h2>
+            <p class="story-text">The whisper echoes through the room, and suddenly the table is filled with spectral figures. They turn to face you, their faces shifting between familiar and monstrous.</p>
+            <p class="story-text">"Dinner's served," they chant in unison. You try to run, but your feet are rooted to the floor. The figures rise and approach, their forms melting together into a single entity that engulfs you completely.</p>
+            <p class="story-text">You become part of the eternal feast, forever trapped in the dining room with the other lost souls of the Miller House.</p>
+            <p class="blood-text">Death cause: absorbed into the collective consciousness of the house's victims.</p>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+        
+        <!-- Narrow Escape Endings -->
+        
+        <!-- Fractured Escape -->
+        <div id="ending-fractured-escape" class="scene hidden ending escape-ending">
+            <div class="scene-image">🪟</div>
+            <h2 class="escape-title">ESCAPE: THE FRACTURED ESCAPE</h2>
+            <p class="story-text">You smash through the window, glass slicing your arm. Cold rain hits your face, sharp and real — you made it out.</p>
+            <p class="story-text">But when you glance at the house, a faint handprint forms on the inside of the window you broke. It presses once, then fades. You still feel it on your skin.</p>
+            <p class="aftereffect">Aftereffect: Haunted mark — the house remembers your touch.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Staircase Fall -->
+        <div id="ending-staircase-fall" class="scene hidden ending escape-ending">
+            <div class="scene-image">🏃‍♂️</div>
+            <h2 class="escape-title">ESCAPE: THE STAIRCASE FALL</h2>
+            <p class="story-text">You bolt from the bedroom, the whispering closing in. The stairs collapse beneath your feet, sending you tumbling through dust and wood.</p>
+            <p class="story-text">You land hard, dazed — but the front door gapes open. You crawl out into the storm. Behind you, the house seals itself shut with a low groan.</p>
+            <p class="aftereffect">Aftereffect: Concussion and trauma; you'll never enter another old house again.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Ashen Trail -->
+        <div id="ending-ashen-trail" class="scene hidden ending escape-ending">
+            <div class="scene-image">👣</div>
+            <h2 class="escape-title">ESCAPE: THE ASHEN TRAIL</h2>
+            <p class="story-text">The whisper urges you toward the basement, but you throw the locket into the sink and run. The floorboards smoke beneath your shoes, leaving black footprints that burn even in the rain.</p>
+            <p class="story-text">By the time you reach the treeline, the locket's voice is gone — but your footprints keep steaming.</p>
+            <p class="aftereffect">Aftereffect: The curse follows your path for nights after.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Narrow Crawl -->
+        <div id="ending-narrow-crawl" class="scene hidden ending escape-ending">
+            <div class="scene-image">🪟</div>
+            <h2 class="escape-title">ESCAPE: THE NARROW CRAWL</h2>
+            <p class="story-text">You squeeze through the kitchen window, the frame cutting your shirt. As you land outside, the wind slams it shut.</p>
+            <p class="story-text">You look back — something stands in the dark kitchen, wearing your torn sleeve. You run until the moon disappears.</p>
+            <p class="aftereffect">Aftereffect: Doppelgänger left inside.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Turning Mirror -->
+        <div id="ending-turning-mirror" class="scene hidden ending escape-ending">
+            <div class="scene-image">🪞</div>
+            <h2 class="escape-title">ESCAPE: THE TURNING MIRROR</h2>
+            <p class="story-text">You refuse to touch the mirror — instead, you shatter it. Every shard reflects a different version of you: older, paler, smiling.</p>
+            <p class="story-text">You run until you can no longer hear the glass tinkling behind you. Later, every mirror you pass shows that same faint grin.</p>
+            <p class="aftereffect">Aftereffect: Mirror curse — reflections are subtly wrong forever.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Candle That Wouldn't Die -->
+        <div id="ending-candle-wouldnt-die" class="scene hidden ending escape-ending">
+            <div class="scene-image">🕯️</div>
+            <h2 class="escape-title">ESCAPE: THE CANDLE THAT WOULDN'T DIE</h2>
+            <p class="story-text">You relight your candle, and sprint toward the door. The flame grows brighter — too bright — blinding everything.</p>
+            <p class="story-text">When you burst outside, it's still burning though the rain pours. You blow it out… and hear someone else exhale behind you.</p>
+            <p class="aftereffect">Aftereffect: The spirit left the house with you.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- False Calm -->
+        <div id="ending-false-calm" class="scene hidden ending escape-ending">
+            <div class="scene-image">⏰</div>
+            <h2 class="escape-title">ESCAPE: THE FALSE CALM</h2>
+            <p class="story-text">You hear the chairs scrape and sprint before the unseen guests rise. The front door opens easily this time — too easily.</p>
+            <p class="story-text">You make it to the street, gasping for air. When you check your phone, the time is still 11:59 PM. It never changed.</p>
+            <p class="aftereffect">Aftereffect: Time-loop glitch — you're out, but stuck in Halloween night forever.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Collapsing Basement -->
+        <div id="ending-collapsing-basement" class="scene hidden ending escape-ending">
+            <div class="scene-image">🏚️</div>
+            <h2 class="escape-title">ESCAPE: THE COLLAPSING BASEMENT</h2>
+            <p class="story-text">You turn and run as the chanting turns to screams. The basement shakes violently — the floor caves in.</p>
+            <p class="story-text">You barely make it up the steps before it swallows itself. When you look back, the house stands silent again, as if nothing happened.</p>
+            <p class="aftereffect">Aftereffect: You hear the chanting in your dreams for weeks.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Breath of the House -->
+        <div id="ending-breath-of-house" class="scene hidden ending escape-ending">
+            <div class="scene-image">🌬️</div>
+            <h2 class="escape-title">ESCAPE: THE BREATH OF THE HOUSE</h2>
+            <p class="story-text">You reach for the front door, feeling icy fingers brush your shoulder. You pull it open and dive through, landing in wet leaves.</p>
+            <p class="story-text">The house exhales — a gust so cold it stops your breath. For a moment, you think it's sighing… disappointed.</p>
+            <p class="aftereffect">Aftereffect: The ghost still whispers your name when you sleep.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Bloody Escape -->
+        <div id="ending-bloody-escape" class="scene hidden ending escape-ending">
+            <div class="scene-image">🩸</div>
+            <h2 class="escape-title">ESCAPE: THE BLOODY ESCAPE</h2>
+            <p class="story-text">You feel the breath on your neck — and you run. Something grabs your ankle, claws digging deep. You kick and break free, leaving your shoe — and part of your foot — behind.</p>
+            <p class="story-text">You limp through the door, bleeding and screaming, but alive. Behind you, the sound of breathing fades into laughter.</p>
+            <p class="aftereffect">Aftereffect: Permanent scar and limp — physical proof of the haunting.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Vanishing House -->
+        <div id="ending-vanishing-house" class="scene hidden ending escape-ending">
+            <div class="scene-image">🏚️</div>
+            <h2 class="escape-title">ESCAPE: THE VANISHING HOUSE</h2>
+            <p class="story-text">You find the front door unlocked — the key cold in your hand. You run out into the night. When you look back, the house is gone.</p>
+            <p class="story-text">Only an empty field remains, with your footprints leading to nowhere. The key is gone from your palm. In its place — a small burn shaped like an eye.</p>
+            <p class="aftereffect">Aftereffect: Reality shift — proof erased, but the mark remains.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        
+        <!-- Hollow Escape -->
+        <div id="ending-hollow-escape" class="scene hidden ending escape-ending">
+            <div class="scene-image">👤</div>
+            <h2 class="escape-title">ESCAPE: THE HOLLOW ESCAPE</h2>
+            <p class="story-text">You don't stop. You don't turn around. You run until the streetlights return. The air feels lighter — but inside, something feels missing.</p>
+            <p class="story-text">Your voice sounds different. Later, when you call your friends, none of them remember daring you to go.</p>
+            <p class="aftereffect">Aftereffect: Partial soul loss — the house took your name from their memories.</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let currentScene = 'scene-start';
+        
+        // Show a specific scene
+        function showScene(sceneId) {
+            // Hide current scene
+            document.getElementById(currentScene).classList.add('hidden');
+            
+            // Show new scene
+            document.getElementById(sceneId).classList.remove('hidden');
+            document.getElementById(sceneId).classList.add('fade-in');
+            
+            // Update current scene
+            currentScene = sceneId;
+            
+            // Add spooky effect randomly
+            if (Math.random() > 0.7) {
+                document.getElementById(sceneId).classList.add('flash');
+                setTimeout(() => {
+                    document.getElementById(sceneId).classList.remove('flash');
+                }, 500);
+            }
+        }
+        
+        // Show an ending
+        function showEnding(endingId) {
+            showScene(endingId);
+        }
+        
+        // Restart the game
+        function restartGame() {
+            showScene('scene-start');
+        }
+        
+        // Add random spooky elements
+        function addSpookyElements() {
+            const spookyChars = ['💀', '👻', '🕷️', '🕸️', '🧟', '🦇', '🔪', '🩸'];
+            const container = document.querySelector('.game-container');
+            
+            for (let i = 0; i < 15; i++) {
+                const element = document.createElement('div');
+                element.className = 'spooky-element';
+                element.textContent = spookyChars[Math.floor(Math.random() * spookyChars.length)];
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.top = Math.random() * 100 + 'vh';
+                element.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                container.appendChild(element);
+            }
+        }
+        
+        // Initialize the game
+        window.onload = function() {
+            addSpookyElements();
+        };
+    </script>
+</body>
+</html>
